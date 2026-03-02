@@ -2,6 +2,9 @@
 coverage/*
 logs/*
 node_modules/*
+dept-kicks/*
+extractor.js
+site-dna.json
 
 helix-importer-ui
 .DS_Store

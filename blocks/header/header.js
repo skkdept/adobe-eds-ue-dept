@@ -1,166 +1,299 @@
-import { getMetadata } from '../../scripts/aem.js';
-import { loadFragment } from '../fragment/fragment.js';
+/**
+ * Header Block
+ * Displays a fixed header with logo, navigation categories, cart, and user account
+ */
 
-// media query match that indicates mobile/tablet width
-const isDesktop = window.matchMedia('(min-width: 900px)');
+/**
+ * Decorates the header block
+ * @param {HTMLElement} block - The header block element
+ */
+export async function decorate(block) {
+  // Extract data from attributes or nested elements
+  const logoText = block.dataset.logoText || 'DEPT Kicks';
+  const ctaButtonText = block.dataset.ctaButtonText || 'Shop Now';
+  const ctaButtonHref = block.dataset.ctaButtonHref || '#products';
+  const showSearch = block.dataset.showSearch !== 'false';
+  const showCart = block.dataset.showCart !== 'false';
+  const showUser = block.dataset.showUser !== 'false';
 
-function closeOnEscape(e) {
-  if (e.code === 'Escape') {
-    const nav = document.getElementById('nav');
-    const navSections = nav.querySelector('.nav-sections');
-    const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
-    if (navSectionExpanded && isDesktop.matches) {
-      // eslint-disable-next-line no-use-before-define
-      toggleAllNavSections(navSections);
-      navSectionExpanded.focus();
-    } else if (!isDesktop.matches) {
-      // eslint-disable-next-line no-use-before-define
-      toggleMenu(nav, navSections);
-      nav.querySelector('button').focus();
+  // Parse navigation items from data or extract from DOM
+  let navItems = [];
+  const navData = block.dataset.navigationItems;
+  if (navData) {
+    try {
+      navItems = JSON.parse(navData);
+    } catch (e) {
+      console.error('Invalid navigation items JSON:', e);
     }
-  }
-}
-
-function closeOnFocusLost(e) {
-  const nav = e.currentTarget;
-  if (!nav.contains(e.relatedTarget)) {
-    const navSections = nav.querySelector('.nav-sections');
-    const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
-    if (navSectionExpanded && isDesktop.matches) {
-      // eslint-disable-next-line no-use-before-define
-      toggleAllNavSections(navSections, false);
-    } else if (!isDesktop.matches) {
-      // eslint-disable-next-line no-use-before-define
-      toggleMenu(nav, navSections, false);
-    }
-  }
-}
-
-function openOnKeydown(e) {
-  const focused = document.activeElement;
-  const isNavDrop = focused.className === 'nav-drop';
-  if (isNavDrop && (e.code === 'Enter' || e.code === 'Space')) {
-    const dropExpanded = focused.getAttribute('aria-expanded') === 'true';
-    // eslint-disable-next-line no-use-before-define
-    toggleAllNavSections(focused.closest('.nav-sections'));
-    focused.setAttribute('aria-expanded', dropExpanded ? 'false' : 'true');
-  }
-}
-
-function focusNavSection() {
-  document.activeElement.addEventListener('keydown', openOnKeydown);
-}
-
-/**
- * Toggles all nav sections
- * @param {Element} sections The container element
- * @param {Boolean} expanded Whether the element should be expanded or collapsed
- */
-function toggleAllNavSections(sections, expanded = false) {
-  sections.querySelectorAll('.nav-sections .default-content-wrapper > ul > li').forEach((section) => {
-    section.setAttribute('aria-expanded', expanded);
-  });
-}
-
-/**
- * Toggles the entire nav
- * @param {Element} nav The container element
- * @param {Element} navSections The nav sections within the container element
- * @param {*} forceExpanded Optional param to force nav expand behavior when not null
- */
-function toggleMenu(nav, navSections, forceExpanded = null) {
-  const expanded = forceExpanded !== null ? !forceExpanded : nav.getAttribute('aria-expanded') === 'true';
-  const button = nav.querySelector('.nav-hamburger button');
-  document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
-  nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-  toggleAllNavSections(navSections, expanded || isDesktop.matches ? 'false' : 'true');
-  button.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
-  // enable nav dropdown keyboard accessibility
-  const navDrops = navSections.querySelectorAll('.nav-drop');
-  if (isDesktop.matches) {
-    navDrops.forEach((drop) => {
-      if (!drop.hasAttribute('tabindex')) {
-        drop.setAttribute('tabindex', 0);
-        drop.addEventListener('focus', focusNavSection);
-      }
-    });
   } else {
-    navDrops.forEach((drop) => {
-      drop.removeAttribute('tabindex');
-      drop.removeEventListener('focus', focusNavSection);
-    });
-  }
-
-  // enable menu collapse on escape keypress
-  if (!expanded || isDesktop.matches) {
-    // collapse menu on escape press
-    window.addEventListener('keydown', closeOnEscape);
-    // collapse menu on focus lost
-    nav.addEventListener('focusout', closeOnFocusLost);
-  } else {
-    window.removeEventListener('keydown', closeOnEscape);
-    nav.removeEventListener('focusout', closeOnFocusLost);
-  }
-}
-
-/**
- * loads and decorates the header, mainly the nav
- * @param {Element} block The header block element
- */
-export default async function decorate(block) {
-  // load nav as fragment
-  const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-  const fragment = await loadFragment(navPath);
-
-  // decorate nav DOM
-  block.textContent = '';
-  const nav = document.createElement('nav');
-  nav.id = 'nav';
-  while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
-
-  const classes = ['brand', 'sections', 'tools'];
-  classes.forEach((c, i) => {
-    const section = nav.children[i];
-    if (section) section.classList.add(`nav-${c}`);
-  });
-
-  const navBrand = nav.querySelector('.nav-brand');
-  const brandLink = navBrand.querySelector('.button');
-  if (brandLink) {
-    brandLink.className = '';
-    brandLink.closest('.button-container').className = '';
-  }
-
-  const navSections = nav.querySelector('.nav-sections');
-  if (navSections) {
-    navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
-      if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
-      navSection.addEventListener('click', () => {
-        if (isDesktop.matches) {
-          const expanded = navSection.getAttribute('aria-expanded') === 'true';
-          toggleAllNavSections(navSections);
-          navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        }
+    // Extract from nested nav elements
+    const navElements = block.querySelectorAll('[data-nav-label]');
+    navElements.forEach((el) => {
+      navItems.push({
+        nav_label: el.dataset.navLabel,
+        nav_href: el.dataset.navHref || '/',
+        submenu_items: [],
       });
     });
   }
 
-  // hamburger for mobile
-  const hamburger = document.createElement('div');
-  hamburger.classList.add('nav-hamburger');
-  hamburger.innerHTML = `<button type="button" aria-controls="nav" aria-label="Open navigation">
-      <span class="nav-hamburger-icon"></span>
-    </button>`;
-  hamburger.addEventListener('click', () => toggleMenu(nav, navSections));
-  nav.prepend(hamburger);
-  nav.setAttribute('aria-expanded', 'false');
-  // prevent mobile nav behavior on window resize
-  toggleMenu(nav, navSections, isDesktop.matches);
-  isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
+  // Default categories if none provided
+  if (navItems.length === 0) {
+    navItems = [
+      { nav_label: 'All', nav_href: '/?category=all' },
+      { nav_label: 'Running', nav_href: '/?category=running' },
+      { nav_label: 'Basketball', nav_href: '/?category=basketball' },
+      { nav_label: 'Training', nav_href: '/?category=training' },
+      { nav_label: 'Lifestyle', nav_href: '/?category=lifestyle' },
+    ];
+  }
 
-  const navWrapper = document.createElement('div');
-  navWrapper.className = 'nav-wrapper';
-  navWrapper.append(nav);
-  block.append(navWrapper);
+  // Build header HTML
+  block.innerHTML = `
+    <div class="header-wrapper">
+      <div class="header-container">
+        <!-- Logo -->
+        <div class="header-logo">
+          <h1>${logoText}</h1>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="header-nav-desktop">
+          ${navItems.map((item) => `
+            <a href="${item.nav_href || '/'}" class="header-nav-item">
+              ${item.nav_label}
+            </a>
+          `).join('')}
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <button class="header-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <!-- Actions -->
+        <div class="header-actions">
+          ${showSearch ? '<button class="header-action-btn header-search-btn" aria-label="Search">🔍</button>' : ''}
+          ${showCart ? `<button class="header-action-btn header-cart-btn" aria-label="Shopping cart">
+            🛒
+            <span class="header-cart-badge" style="display: none;">0</span>
+          </button>` : ''}
+          ${showUser ? '<button class="header-action-btn header-user-btn" aria-label="User account">👤</button>' : ''}
+        </div>
+
+        <!-- CTA Button -->
+        <a href="${ctaButtonHref}" class="header-cta-button">${ctaButtonText}</a>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div class="header-mobile-menu" style="display: none;">
+        <nav class="header-nav-mobile">
+          ${navItems.map((item) => `
+            <a href="${item.nav_href || '/'}" class="header-nav-item">${item.nav_label}</a>
+          `).join('')}
+        </nav>
+      </div>
+
+      <!-- Search Panel -->
+      <div class="header-search-panel" style="display: none;">
+        <input type="search" placeholder="Search products..." class="header-search-input" />
+        <div class="header-search-results"></div>
+      </div>
+
+      <!-- User Menu -->
+      <div class="header-user-menu" style="display: none;">
+        <button class="header-user-signin">Sign In</button>
+        <button class="header-user-signout" style="display: none;">Sign Out</button>
+        <div class="header-user-info"></div>
+      </div>
+    </div>
+  `;
+
+  block.classList.add('header');
+
+  // Handle scroll effect
+  updateHeaderOnScroll();
+  window.addEventListener('scroll', updateHeaderOnScroll);
+
+  // Mobile menu toggle
+  const menuToggle = block.querySelector('.header-menu-toggle');
+  const mobileMenu = block.querySelector('.header-mobile-menu');
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', () => {
+      const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', !isOpen);
+      mobileMenu.style.display = isOpen ? 'none' : 'block';
+    });
+  }
+
+  // Navigation link handling
+  const navLinks = block.querySelectorAll('.header-nav-item');
+  navLinks.forEach((link) => {
+    link.addEventListener('click', (e) => {
+      if (link.href.startsWith('#') || link.href.includes('?')) {
+        e.preventDefault();
+        const href = link.getAttribute('href');
+        if (href.startsWith('#')) {
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        } else {
+          window.location.href = href;
+        }
+      }
+      // Close mobile menu after click
+      if (mobileMenu && mobileMenu.style.display === 'block') {
+        menuToggle.click();
+      }
+    });
+  });
+
+  // Cart button
+  const cartBtn = block.querySelector('.header-cart-btn');
+  if (cartBtn) {
+    cartBtn.addEventListener('click', () => {
+      const cartEvent = new CustomEvent('cart-toggle', { bubbles: true, detail: { open: true } });
+      document.dispatchEvent(cartEvent);
+    });
+  }
+
+  // Search button
+  const searchBtn = block.querySelector('.header-search-btn');
+  const searchPanel = block.querySelector('.header-search-panel');
+  if (searchBtn && searchPanel) {
+    searchBtn.addEventListener('click', () => {
+      const isOpen = searchPanel.style.display === 'block';
+      searchPanel.style.display = isOpen ? 'none' : 'block';
+      if (!isOpen) {
+        searchPanel.querySelector('.header-search-input').focus();
+      }
+    });
+
+    // Search input
+    const searchInput = searchPanel.querySelector('.header-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        if (query.length > 2) {
+          const searchEvent = new CustomEvent('product-search', {
+            bubbles: true,
+            detail: { query },
+          });
+          document.dispatchEvent(searchEvent);
+        }
+      });
+    }
+  }
+
+  // User button
+  const userBtn = block.querySelector('.header-user-btn');
+  const userMenu = block.querySelector('.header-user-menu');
+  const signInBtn = block.querySelector('.header-user-signin');
+  const signOutBtn = block.querySelector('.header-user-signout');
+
+  if (userBtn && userMenu) {
+    userBtn.addEventListener('click', () => {
+      const isOpen = userMenu.style.display === 'block';
+      userMenu.style.display = isOpen ? 'none' : 'block';
+    });
+  }
+
+  // Mock authentication
+  if (signInBtn) {
+    signInBtn.addEventListener('click', () => {
+      const user = {
+        name: 'Guest User',
+        email: 'guest@example.com',
+      };
+      localStorage.setItem('deptKicksUser', JSON.stringify(user));
+      updateUserDisplay(block, user);
+    });
+  }
+
+  if (signOutBtn) {
+    signOutBtn.addEventListener('click', () => {
+      localStorage.removeItem('deptKicksUser');
+      updateUserDisplay(block, null);
+    });
+  }
+
+  // Check for existing user
+  const savedUser = localStorage.getItem('deptKicksUser');
+  if (savedUser) {
+    try {
+      updateUserDisplay(block, JSON.parse(savedUser));
+    } catch (e) {
+      console.error('Error loading user:', e);
+    }
+  }
+
+  // Update cart count from localStorage
+  updateCartCount(block);
+  window.addEventListener('cart-updated', () => updateCartCount(block));
 }
+
+/**
+ * Update header appearance based on scroll position
+ */
+function updateHeaderOnScroll() {
+  const header = document.querySelector('.block.header');
+  if (header) {
+    if (window.scrollY > 10) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  }
+}
+
+/**
+ * Update cart badge count
+ */
+function updateCartCount(block) {
+  const badge = block.querySelector('.header-cart-badge');
+  if (badge) {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const count = cart.length;
+    badge.textContent = count;
+    badge.style.display = count > 0 ? 'flex' : 'none';
+  }
+}
+
+/**
+ * Update user display in menu
+ */
+function updateUserDisplay(block, user) {
+  const userMenu = block.querySelector('.header-user-menu');
+  const signInBtn = block.querySelector('.header-user-signin');
+  const signOutBtn = block.querySelector('.header-user-signout');
+  const userInfo = block.querySelector('.header-user-info');
+
+  if (user) {
+    signInBtn.style.display = 'none';
+    signOutBtn.style.display = 'block';
+    if (userInfo) {
+      userInfo.innerHTML = `<div class="header-user-name">${user.name}</div><div class="header-user-email">${user.email}</div>`;
+    }
+  } else {
+    signInBtn.style.display = 'block';
+    signOutBtn.style.display = 'none';
+    if (userInfo) {
+      userInfo.innerHTML = '';
+    }
+  }
+}
+
+// Auto-initialize on DOMContentLoaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.block.header').forEach(decorate);
+  });
+} else {
+  document.querySelectorAll('.block.header').forEach(decorate);
+}
+
+// Default export for backward compatibility
+export default decorate;

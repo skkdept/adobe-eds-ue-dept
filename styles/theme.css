@@ -1,0 +1,313 @@
+/* DEPT Kicks Theme CSS Variables */
+/* Comprehensive theme customization for all components */
+
+:root {
+  /* ============================================
+     BRAND COLORS
+     ============================================ */
+  --dept-orange: #ff8c00;
+  --dept-orange-light: #ffb84d;
+  --dept-orange-dark: #e67e00;
+  
+  --dept-white: #ffffff;
+  --dept-black: #000000;
+
+  /* Gray Scale */
+  --dept-gray-50: #f9fafb;
+  --dept-gray-100: #f3f4f6;
+  --dept-gray-200: #e5e7eb;
+  --dept-gray-300: #d1d5db;
+  --dept-gray-400: #9ca3af;
+  --dept-gray-500: #6b7280;
+  --dept-gray-600: #4b5563;
+  --dept-gray-700: #374151;
+  --dept-gray-800: #1f2937;
+  --dept-gray-900: #111827;
+
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  --dept-font-primary: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --dept-font-monospace: "Courier New", monospace;
+
+  --dept-font-size-xs: 0.75rem;     /* 12px */
+  --dept-font-size-sm: 0.875rem;    /* 14px */
+  --dept-font-size-base: 1rem;      /* 16px */
+  --dept-font-size-lg: 1.125rem;    /* 18px */
+  --dept-font-size-xl: 1.25rem;     /* 20px */
+  --dept-font-size-2xl: 1.5rem;     /* 24px */
+  --dept-font-size-3xl: 1.875rem;   /* 30px */
+  --dept-font-size-4xl: 2.25rem;    /* 36px */
+  --dept-font-size-5xl: 3rem;       /* 48px */
+
+  --dept-font-weight-light: 300;
+  --dept-font-weight-normal: 400;
+  --dept-font-weight-medium: 500;
+  --dept-font-weight-semibold: 600;
+  --dept-font-weight-bold: 700;
+
+  --dept-line-height-tight: 1;
+  --dept-line-height-snug: 1.375;
+  --dept-line-height-normal: 1.5;
+  --dept-line-height-relaxed: 1.625;
+  --dept-line-height-loose: 2;
+
+  /* ============================================
+     SPACING SCALE
+     ============================================ */
+  --dept-spacing-unit: 0.25rem;
+  --dept-spacing-xs: 0.25rem;
+  --dept-spacing-sm: 0.5rem;
+  --dept-spacing-md: 1rem;
+  --dept-spacing-lg: 1.5rem;
+  --dept-spacing-xl: 2rem;
+  --dept-spacing-2xl: 2.5rem;
+  --dept-spacing-3xl: 3rem;
+  --dept-spacing-4xl: 4rem;
+
+  /* ============================================
+     BORDER
+     ============================================ */
+  --dept-border-radius-none: 0;
+  --dept-border-radius-sm: 2px;
+  --dept-border-radius-base: 4px;
+  --dept-border-radius-md: 6px;
+  --dept-border-radius-lg: 8px;
+  --dept-border-radius-xl: 12px;
+  --dept-border-radius-full: 9999px;
+
+  --dept-border-width-1: 1px;
+  --dept-border-width-2: 2px;
+
+  /* ============================================
+     SHADOWS
+     ============================================ */
+  --dept-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --dept-shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --dept-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --dept-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --dept-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --dept-shadow-none: none;
+
+  /* ============================================
+     TRANSITIONS / ANIMATIONS
+     ============================================ */
+  --dept-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --dept-transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --dept-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ============================================
+     LAYOUT
+     ============================================ */
+  --dept-max-width-container: 1280px;
+  --dept-max-width-wide: 1400px;
+  --dept-max-width-narrow: 960px;
+
+  --dept-gutter-mobile: 1rem;
+  --dept-gutter-tablet: 1.5rem;
+  --dept-gutter-desktop: 2rem;
+
+  /* ============================================
+     Z-INDEX SCALE
+     ============================================ */
+  --dept-z-index-hidden: -1;
+  --dept-z-index-base: 0;
+  --dept-z-index-dropdown: 1000;
+  --dept-z-index-sticky: 1020;
+  --dept-z-index-fixed: 1030;
+  --dept-z-index-modal-backdrop: 1040;
+  --dept-z-index-modal: 1050;
+  --dept-z-index-popover: 1060;
+  --dept-z-index-tooltip: 1070;
+
+  /* ============================================
+     COMPONENT SPECIFIC OVERRIDES
+     ============================================ */
+
+  /* Header */
+  --header-height: 5rem;
+  --header-height-lg: 5rem;
+  --header-bg: var(--dept-white);
+  --header-text: var(--dept-black);
+  --header-border: var(--dept-gray-200);
+  --header-font: var(--dept-font-primary);
+
+  /* Hero */
+  --hero-bg: var(--dept-orange);
+  --hero-text: var(--dept-white);
+  --hero-button-bg: var(--dept-black);
+  --hero-button-hover: var(--dept-gray-800);
+  --hero-stats-bg: rgba(0, 0, 0, 0.8);
+
+  /* Products */
+  --products-bg: var(--dept-white);
+  --products-text: var(--dept-black);
+  --products-border: var(--dept-gray-200);
+  --products-hover: rgba(255, 140, 0, 0.1);
+
+  /* Footer */
+  --footer-bg: var(--dept-gray-900);
+  --footer-text: var(--dept-white);
+  --footer-border: rgba(255, 255, 255, 0.1);
+
+  /* Cart */
+  --cart-bg: var(--dept-white);
+  --cart-text: var(--dept-black);
+  --cart-border: var(--dept-gray-200);
+
+  /* ============================================
+     SEMANTIC COLORS
+     ============================================ */
+  --dept-success: #22c55e;
+  --dept-warning: #eab308;
+  --dept-error: #ef4444;
+  --dept-info: #3b82f6;
+}
+
+/* Dark Mode (if needed in future) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dept-gray-50: #0f172a;
+    --dept-gray-100: #1e293b;
+    --dept-gray-200: #334155;
+    --dept-gray-300: #475569;
+    --dept-gray-400: #64748b;
+    --dept-gray-500: #78909c;
+    --dept-gray-600: #94a3b8;
+    --dept-gray-700: #cbd5e1;
+    --dept-gray-800: #e2e8f0;
+    --dept-gray-900: #f8fafc;
+
+    --dept-white: #1a1a1a;
+    --dept-black: #f5f5f5;
+
+    --header-bg: var(--dept-gray-900);
+    --header-text: var(--dept-black);
+    --header-border: var(--dept-gray-600);
+
+    --products-bg: var(--dept-gray-900);
+    --products-text: var(--dept-black);
+    --products-border: var(--dept-gray-600);
+
+    --footer-bg: var(--dept-gray-50);
+    --footer-text: var(--dept-black);
+  }
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--dept-font-primary);
+  font-size: var(--dept-font-size-base);
+  line-height: var(--dept-line-height-normal);
+  color: var(--dept-black);
+  background-color: var(--dept-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global Link Styles */
+a {
+  color: var(--dept-orange);
+  text-decoration: none;
+  transition: color var(--dept-transition-fast);
+}
+
+a:hover {
+  color: var(--dept-orange-dark);
+}
+
+a:focus {
+  outline: 2px solid var(--dept-orange);
+  outline-offset: 2px;
+}
+
+/* Global Button Styles */
+button {
+  font-family: var(--dept-font-primary);
+  font-size: inherit;
+  cursor: pointer;
+}
+
+/* Utilities */
+.container {
+  width: 100%;
+  max-width: var(--dept-max-width-container);
+  margin: 0 auto;
+  padding: 0 var(--dept-gutter-mobile);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 var(--dept-gutter-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 var(--dept-gutter-desktop);
+  }
+}
+
+.container-wide {
+  max-width: var(--dept-max-width-wide);
+}
+
+.container-narrow {
+  max-width: var(--dept-max-width-narrow);
+}
+
+/* Visibility Utilities */
+.hidden {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Image Responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

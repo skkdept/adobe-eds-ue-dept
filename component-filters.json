@@ -38,5 +38,18 @@
       "button",
       "title"
     ]
+  },
+  {
+    "id": "footer",
+    "components": [
+      "footer-section",
+      "social-link"
+    ]
+  },
+  {
+    "id": "products",
+    "components": [
+      "product-item"
+    ]
   }
 ]

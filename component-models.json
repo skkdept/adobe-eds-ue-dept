@@ -180,6 +180,151 @@
     ]
   },
   {
+    "id": "footer",
+    "fields": [
+      {
+        "component": "text",
+        "name": "copyright_text",
+        "label": "Copyright Text",
+        "valueType": "string",
+        "value": "© 2026 DEPT Kicks. All rights reserved.",
+        "required": false
+      },
+      {
+        "component": "component",
+        "name": "footer_sections",
+        "label": "Footer Sections",
+        "valueType": "object",
+        "multi": true,
+        "fields": [
+          {
+            "extends": "footer-section"
+          }
+        ],
+        "required": false
+      },
+      {
+        "component": "component",
+        "name": "social_media",
+        "label": "Social Media Links",
+        "valueType": "object",
+        "multi": true,
+        "fields": [
+          {
+            "extends": "social-link"
+          }
+        ],
+        "required": false
+      },
+      {
+        "component": "checkbox",
+        "name": "newsletter_enabled",
+        "label": "Show Newsletter Signup",
+        "valueType": "boolean",
+        "value": true,
+        "required": false
+      },
+      {
+        "component": "text",
+        "name": "newsletter_placeholder",
+        "label": "Newsletter Email Placeholder",
+        "valueType": "string",
+        "value": "Enter your email",
+        "required": false
+      }
+    ]
+  },
+  {
+    "id": "footer-section",
+    "fields": [
+      {
+        "component": "text",
+        "name": "section_title",
+        "label": "Section Title",
+        "valueType": "string",
+        "value": "About",
+        "required": true
+      },
+      {
+        "component": "component",
+        "name": "section_links",
+        "label": "Links",
+        "valueType": "object",
+        "multi": true,
+        "fields": [
+          {
+            "extends": "footer-link"
+          }
+        ],
+        "required": false
+      }
+    ]
+  },
+  {
+    "id": "footer-link",
+    "fields": [
+      {
+        "component": "text",
+        "name": "link_text",
+        "label": "Link Text",
+        "valueType": "string",
+        "value": "Link",
+        "required": true
+      },
+      {
+        "component": "text",
+        "name": "link_href",
+        "label": "Link URL",
+        "valueType": "string",
+        "value": "/",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "social-link",
+    "fields": [
+      {
+        "component": "select",
+        "name": "platform",
+        "label": "Platform",
+        "valueType": "string",
+        "value": "Twitter",
+        "options": [
+          {
+            "value": "Twitter",
+            "label": "Twitter / X"
+          },
+          {
+            "value": "Instagram",
+            "label": "Instagram"
+          },
+          {
+            "value": "Facebook",
+            "label": "Facebook"
+          },
+          {
+            "value": "LinkedIn",
+            "label": "LinkedIn"
+          },
+          {
+            "value": "YouTube",
+            "label": "YouTube"
+          }
+        ],
+        "required": true
+      },
+      {
+        "component": "text",
+        "name": "social_url",
+        "label": "Profile URL",
+        "valueType": "string",
+        "value": "https://",
+        "required": true
+      }
+    ]
+  },
+  {
     "id": "fragment",
     "fields": [
       {
@@ -190,28 +335,423 @@
     ]
   },
   {
-    "id": "hero",
+    "id": "header",
     "fields": [
       {
-        "component": "reference",
+        "component": "text",
+        "name": "logo_text",
+        "label": "Logo Text",
         "valueType": "string",
-        "name": "image",
-        "label": "Image",
-        "multi": false
+        "value": "DEPT Kicks",
+        "required": true
+      },
+      {
+        "component": "component",
+        "name": "navigation_items",
+        "label": "Navigation Items",
+        "valueType": "object",
+        "multi": true,
+        "fields": [
+          {
+            "extends": "nav-item"
+          }
+        ],
+        "required": false
       },
       {
         "component": "text",
+        "name": "cta_button_text",
+        "label": "CTA Button Text",
         "valueType": "string",
-        "name": "imageAlt",
-        "label": "Alt",
-        "value": ""
+        "value": "Shop Now",
+        "required": false
+      },
+      {
+        "component": "text",
+        "name": "cta_button_href",
+        "label": "CTA Button Link",
+        "valueType": "string",
+        "value": "#products",
+        "required": false
+      },
+      {
+        "component": "checkbox",
+        "name": "show_search",
+        "label": "Show Search",
+        "valueType": "boolean",
+        "value": true,
+        "required": false
+      },
+      {
+        "component": "checkbox",
+        "name": "show_cart",
+        "label": "Show Cart Icon",
+        "valueType": "boolean",
+        "value": true,
+        "required": false
+      },
+      {
+        "component": "checkbox",
+        "name": "show_user",
+        "label": "Show User Account",
+        "valueType": "boolean",
+        "value": true,
+        "required": false
+      }
+    ]
+  },
+  {
+    "id": "nav-item",
+    "fields": [
+      {
+        "component": "text",
+        "name": "nav_label",
+        "label": "Navigation Label",
+        "valueType": "string",
+        "value": "Category",
+        "required": true
+      },
+      {
+        "component": "text",
+        "name": "nav_href",
+        "label": "Link URL",
+        "valueType": "string",
+        "value": "/",
+        "required": false
+      },
+      {
+        "component": "component",
+        "name": "submenu_items",
+        "label": "Submenu Items",
+        "valueType": "object",
+        "multi": true,
+        "fields": [
+          {
+            "extends": "submenu-item"
+          }
+        ],
+        "required": false
+      }
+    ]
+  },
+  {
+    "id": "submenu-item",
+    "fields": [
+      {
+        "component": "text",
+        "name": "submenu_label",
+        "label": "Submenu Label",
+        "valueType": "string",
+        "value": "Option",
+        "required": true
+      },
+      {
+        "component": "text",
+        "name": "submenu_href",
+        "label": "Submenu Link",
+        "valueType": "string",
+        "value": "/",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "hero",
+    "fields": [
+      {
+        "component": "text",
+        "name": "season_label",
+        "label": "Season Label",
+        "valueType": "string",
+        "value": "New Season Drop — 2026",
+        "required": false
+      },
+      {
+        "component": "text",
+        "name": "heading",
+        "label": "Main Heading",
+        "valueType": "string",
+        "value": "Step into\nperformance",
+        "required": true
       },
       {
         "component": "richtext",
-        "name": "text",
+        "name": "description",
+        "label": "Description",
+        "valueType": "string",
+        "value": "Curated footwear from the world's top athletic brands — built for athletes who demand excellence.",
+        "required": false
+      },
+      {
+        "component": "text",
+        "name": "cta_text",
+        "label": "CTA Button Text",
+        "valueType": "string",
+        "value": "Shop Collection",
+        "required": false
+      },
+      {
+        "component": "text",
+        "name": "cta_link",
+        "label": "CTA Link Target",
+        "valueType": "string",
+        "value": "#products",
+        "required": false
+      },
+      {
+        "component": "reference",
+        "name": "image",
+        "label": "Hero Image",
+        "valueType": "string",
+        "required": false
+      },
+      {
+        "component": "component",
+        "name": "stats",
+        "label": "Statistics",
+        "valueType": "object",
+        "multi": true,
+        "fields": [
+          {
+            "extends": "stat-item"
+          }
+        ],
+        "required": false
+      }
+    ]
+  },
+  {
+    "id": "stat-item",
+    "fields": [
+      {
+        "component": "text",
+        "name": "stat_value",
+        "label": "Stat Value",
+        "valueType": "string",
+        "value": "24",
+        "required": true
+      },
+      {
+        "component": "text",
+        "name": "stat_label",
+        "label": "Stat Label",
+        "valueType": "string",
+        "value": "Styles",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "products",
+    "fields": [
+      {
+        "component": "text",
+        "name": "section_title",
+        "label": "Section Title",
+        "valueType": "string",
+        "value": "Our Collection",
+        "required": false
+      },
+      {
+        "component": "richtext",
+        "name": "section_description",
+        "label": "Section Description",
+        "valueType": "string",
+        "required": false
+      },
+      {
+        "component": "component",
+        "name": "category_filters",
+        "label": "Category Filters",
+        "valueType": "object",
+        "multi": true,
+        "fields": [
+          {
+            "extends": "category-filter"
+          }
+        ],
+        "required": false
+      },
+      {
+        "component": "component",
+        "name": "product_items",
+        "label": "Products",
+        "valueType": "object",
+        "multi": true,
+        "fields": [
+          {
+            "extends": "product-item"
+          }
+        ],
+        "required": false
+      },
+      {
+        "component": "select",
+        "name": "grid_columns",
+        "label": "Grid Columns",
+        "valueType": "string",
+        "value": "4",
+        "options": [
+          {
+            "value": "2",
+            "label": "2 Columns"
+          },
+          {
+            "value": "3",
+            "label": "3 Columns"
+          },
+          {
+            "value": "4",
+            "label": "4 Columns"
+          },
+          {
+            "value": "5",
+            "label": "5 Columns"
+          }
+        ],
+        "required": false
+      }
+    ]
+  },
+  {
+    "id": "product-item",
+    "fields": [
+      {
+        "component": "text",
+        "name": "product_name",
+        "label": "Product Name",
+        "valueType": "string",
+        "value": "Product Name",
+        "required": true
+      },
+      {
+        "component": "number",
+        "name": "product_price",
+        "label": "Product Price",
+        "valueType": "number",
+        "value": 129.99,
+        "required": true
+      },
+      {
+        "component": "select",
+        "name": "product_category",
+        "label": "Category",
+        "valueType": "string",
+        "value": "All",
+        "options": [
+          {
+            "value": "All",
+            "label": "All"
+          },
+          {
+            "value": "Running",
+            "label": "Running"
+          },
+          {
+            "value": "Basketball",
+            "label": "Basketball"
+          },
+          {
+            "value": "Training",
+            "label": "Training"
+          },
+          {
+            "value": "Lifestyle",
+            "label": "Lifestyle"
+          }
+        ],
+        "required": true
+      },
+      {
+        "component": "reference",
+        "name": "product_image",
+        "label": "Product Image",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "product_description",
+        "label": "Product Description",
+        "valueType": "string",
+        "required": false
+      },
+      {
+        "component": "checkbox",
+        "name": "is_featured",
+        "label": "Featured Product",
+        "valueType": "boolean",
+        "value": false,
+        "required": false
+      },
+      {
+        "component": "component",
+        "name": "product_variants",
+        "label": "Product Variants",
+        "valueType": "object",
+        "multi": true,
+        "fields": [
+          {
+            "extends": "product-variant"
+          }
+        ],
+        "required": false
+      }
+    ]
+  },
+  {
+    "id": "product-variant",
+    "fields": [
+      {
+        "component": "select",
+        "name": "variant_type",
+        "label": "Variant Type",
+        "valueType": "string",
+        "value": "Size",
+        "options": [
+          {
+            "value": "Size",
+            "label": "Size"
+          },
+          {
+            "value": "Color",
+            "label": "Color"
+          },
+          {
+            "value": "Material",
+            "label": "Material"
+          }
+        ],
+        "required": true
+      },
+      {
+        "component": "text",
+        "name": "variant_value",
+        "label": "Variant Value",
+        "valueType": "string",
         "value": "",
-        "label": "Text",
-        "valueType": "string"
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "category-filter",
+    "fields": [
+      {
+        "component": "text",
+        "name": "filter_name",
+        "label": "Filter Name",
+        "valueType": "string",
+        "value": "All",
+        "required": true
+      },
+      {
+        "component": "text",
+        "name": "filter_id",
+        "label": "Filter ID",
+        "valueType": "string",
+        "value": "all",
+        "required": true
       }
     ]
   }

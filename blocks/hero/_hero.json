@@ -9,7 +9,22 @@
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
               "name": "Hero",
-              "model": "hero"
+              "filter": "hero"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Stat",
+      "id": "stat",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Stat",
+              "model": "stat-item"
             }
           }
         }
@@ -21,25 +36,85 @@
       "id": "hero",
       "fields": [
         {
-          "component": "reference",
+          "component": "text",
+          "name": "season_label",
+          "label": "Season Label",
           "valueType": "string",
-          "name": "image",
-          "label": "Image",
-          "multi": false
+          "value": "New Season Drop — 2026",
+          "required": false
         },
         {
           "component": "text",
+          "name": "heading",
+          "label": "Main Heading",
           "valueType": "string",
-          "name": "imageAlt",
-          "label": "Alt",
-          "value": ""
+          "value": "Step into\nperformance",
+          "required": true
         },
         {
           "component": "richtext",
-          "name": "text",
-          "value": "",
-          "label": "Text",
-          "valueType": "string"
+          "name": "description",
+          "label": "Description",
+          "valueType": "string",
+          "value": "Curated footwear from the world's top athletic brands — built for athletes who demand excellence.",
+          "required": false
+        },
+        {
+          "component": "text",
+          "name": "cta_text",
+          "label": "CTA Button Text",
+          "valueType": "string",
+          "value": "Shop Collection",
+          "required": false
+        },
+        {
+          "component": "text",
+          "name": "cta_link",
+          "label": "CTA Link Target",
+          "valueType": "string",
+          "value": "#products",
+          "required": false
+        },
+        {
+          "component": "reference",
+          "name": "image",
+          "label": "Hero Image",
+          "valueType": "string",
+          "required": false
+        },
+        {
+          "component": "component",
+          "name": "stats",
+          "label": "Statistics",
+          "valueType": "object",
+          "multi": true,
+          "fields": [
+            {
+              "extends": "stat-item"
+            }
+          ],
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "stat-item",
+      "fields": [
+        {
+          "component": "text",
+          "name": "stat_value",
+          "label": "Stat Value",
+          "valueType": "string",
+          "value": "24",
+          "required": true
+        },
+        {
+          "component": "text",
+          "name": "stat_label",
+          "label": "Stat Label",
+          "valueType": "string",
+          "value": "Styles",
+          "required": true
         }
       ]
     }
