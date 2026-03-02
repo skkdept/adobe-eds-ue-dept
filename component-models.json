@@ -18,6 +18,15 @@
     "...": "./models/_section.json#/models"
   },
   {
-    "...": "./blocks/*/_*.json#/models"
+    "...": "./blocks/cards/_cards.json#/models"
+  },
+  {
+    "...": "./blocks/columns/_columns.json#/models"
+  },
+  {
+    "...": "./blocks/fragment/_fragment.json#/models"
+  },
+  {
+    "...": "./blocks/hero/_hero.json#/models"
   }
 ]
